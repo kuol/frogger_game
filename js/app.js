@@ -29,6 +29,7 @@ var Player = function() {
     this.x = 101*2;
     this.y = 83*5;
     this.back = new Image();
+    this.flag = 0;
 //    this.back.crossOrigin = "Anonymous";
 };
 
@@ -41,32 +42,51 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(direction) {
+    /*
     var oldBack = new Image();
     oldBack = this.back;
     var oldX = this.x;
     var oldY = this.y;
     ctx.putImageData(oldBack, oldX, oldY);
+    */
+    ctx.putImageData(this.back, this.x, this.y);
     
     switch (direction) {
       // Left arrow.
         case "left":
-          this.x = this.x - 101;
-          break;
+            this.x = this.x - 101;
+            if (this.x < 0) {
+                this.x = 0;
+                this.flag = 1;
+            }
+            break;
 
           // Right arrow.
         case "right":
-          this.x = this.x + 101;
-          break;
+            this.x = this.x + 101;
+            if (this.x > 404) {
+                this.x = 404;
+                this.flag = 1;
+            }
+            break;
 
-          // Down arrow
+        // Down arrow
         case "down":
-          this.y = this.y + 83;
-          break;
+            this.y = this.y + 83;
+            if (this.y > 415) {
+                this.y = 415;
+                this.flag = 1;
+            }
+            break;
 
           // Up arrow 
         case "up":
-          this.y = this.y - 83;
-          break;
+            this.y = this.y - 83;
+            if (this.y < 0) {
+                this.y = 0;
+                this.flag = 1;
+            }
+            break;
     }
     this.render();
 };
