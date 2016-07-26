@@ -18,23 +18,81 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function() {
+    this.sprite = 'images/char-cat-girl.png';
+    this.x = 101*2;
+    this.y = 83*5;
+    this.back = new Image();
+//    this.back.crossOrigin = "Anonymous";
+};
 
+Player.prototype.update = function(dt) {
+};
 
+Player.prototype.render = function() {
+    this.back = ctx.getImageData(this.x, this.y, 101, 171);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.handleInput = function(direction) {
+    var oldBack = new Image();
+    oldBack = this.back;
+    var oldX = this.x;
+    var oldY = this.y;
+    ctx.putImageData(oldBack, oldX, oldY);
+    
+    switch (direction) {
+      // Left arrow.
+        case "left":
+          this.x = this.x - 101;
+          break;
+
+          // Right arrow.
+        case "right":
+          this.x = this.x + 101;
+          break;
+
+          // Down arrow
+        case "down":
+          this.y = this.y + 83;
+          break;
+
+          // Up arrow 
+        case "up":
+          this.y = this.y - 83;
+          break;
+    }
+    this.render();
+};
+
+player = new Player();
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+/*
+p = new Player();
+e1 = new Enemy();
 
+var putImage = function(obj) {
+    var x = document.createElement('IMG');
+    x.setAttribute('src', obj.sprite);
+    x.position = "absolute";
+    x.style.left = "20px";
+    document.body.appendChild(x);
+};
 
+putImage(e1);
+*/
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keydown', function(e) {
     var allowedKeys = {
         37: 'left',
         38: 'up',
