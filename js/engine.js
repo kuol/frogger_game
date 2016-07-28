@@ -93,10 +93,10 @@ var Engine = (function(global) {
     
     function checkCollisions() {
         for (var i = 0; i < allEnemies.length; i++) {
-            if (player.x > allEnemies[i].x - 101 && 
-                player.x < allEnemies[i].x + 101 && 
-                player.y > allEnemies[i].y - 171 && 
-                player.y < allEnemies[i].y + 171)
+            if (player.x > allEnemies[i].x - 75 && 
+                player.x < allEnemies[i].x + 75 && 
+                player.y > allEnemies[i].y - 83 && 
+                player.y < allEnemies[i].y + 83)
                 return true;
         }
         return false;
