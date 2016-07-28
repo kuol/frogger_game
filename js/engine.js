@@ -24,6 +24,8 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+    
+    var gameTime = 0;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -41,7 +43,7 @@ var Engine = (function(global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
-
+        
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
@@ -58,7 +60,6 @@ var Engine = (function(global) {
          */
         win.requestAnimationFrame(main);
     }
-    //win.requestAnimationFrame(main);
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
      * game loop.
@@ -80,6 +81,11 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
+       // if (Math.random() < 0.01) {
+        gameTime += dt;
+        if(Math.random() < 1 - Math.pow(0.997, gameTime)) {
+            allEnemies.push(new Enemy());
+        }
         // checkCollisions();
     }
 
@@ -91,9 +97,18 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
+        /*
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+        */
+        for (var i = 0; i < allEnemies.length; i++){
+            allEnemies[i].update(dt);
+            if (allEnemies[i].x > canvas.width) {
+                allEnemies.splice(i,1);
+                i--;
+            }
+        }
         //enemy.update(dt);
         player.update();
     }
@@ -147,8 +162,13 @@ var Engine = (function(global) {
     function renderEntities() {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
-        */
+         */
         allEnemies.forEach(function(enemy) {
+            /*
+            var interval = getRandom(0,2) * 1000;
+            console.log(interval);
+            win.setInterval(enemy.render(), interval);
+            */
             enemy.render();
         });
 
