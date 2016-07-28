@@ -1,3 +1,11 @@
+function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max + 1 - min)) + min;
+}
+
+function getRandom(min, max) {
+      return Math.random() * (max + 1 - min) + min;
+}
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -6,6 +14,10 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = 0; //-101;
+    var row = getRandomInt(1, 3);
+    this.y = row * 83 - 20;
+
 };
 
 // Update the enemy's position, required method for game
@@ -14,6 +26,8 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    var speed = getRandom(100, 500);
+    this.x = speed * dt + this.x;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -29,8 +43,6 @@ var Player = function() {
     this.x = 101*2;
     this.y = 83*5;
     this.back = new Image();
-    this.flag = 0;
-//    this.back.crossOrigin = "Anonymous";
 };
 
 Player.prototype.update = function(dt) {
@@ -42,31 +54,22 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(direction) {
-    /*
-    var oldBack = new Image();
-    oldBack = this.back;
-    var oldX = this.x;
-    var oldY = this.y;
-    ctx.putImageData(oldBack, oldX, oldY);
-    */
     ctx.putImageData(this.back, this.x, this.y);
     
     switch (direction) {
-      // Left arrow.
+        // Left arrow.
         case "left":
             this.x = this.x - 101;
             if (this.x < 0) {
                 this.x = 0;
-                this.flag = 1;
             }
             break;
 
-          // Right arrow.
+        // Right arrow.
         case "right":
             this.x = this.x + 101;
             if (this.x > 404) {
                 this.x = 404;
-                this.flag = 1;
             }
             break;
 
@@ -75,16 +78,14 @@ Player.prototype.handleInput = function(direction) {
             this.y = this.y + 83;
             if (this.y > 415) {
                 this.y = 415;
-                this.flag = 1;
             }
             break;
 
-          // Up arrow 
+        // Up arrow 
         case "up":
             this.y = this.y - 83;
             if (this.y < 0) {
                 this.y = 0;
-                this.flag = 1;
             }
             break;
     }
@@ -92,6 +93,7 @@ Player.prototype.handleInput = function(direction) {
 };
 
 player = new Player();
+enemy = new Enemy();
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player

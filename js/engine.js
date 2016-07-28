@@ -38,25 +38,26 @@ var Engine = (function(global) {
          * instructions at different speeds we need a constant value that
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
+         */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
-         */
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        //update(dt);
+        update(dt);
+        console.log(enemy.x);
         render();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
-        lastTime = now;
          */
+        lastTime = now;
 
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        //win.requestAnimationFrame(main);
+        win.requestAnimationFrame(main);
     }
     //win.requestAnimationFrame(main);
     /* This function does some initial setup that should only occur once,
@@ -91,9 +92,12 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
+        /*
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+        */
+        enemy.update(dt);
         player.update();
     }
 
@@ -152,6 +156,7 @@ var Engine = (function(global) {
         */
 
         player.render();
+        enemy.render();
     }
 
     /* This function does nothing but it could have been a good place to
