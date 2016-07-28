@@ -86,9 +86,21 @@ var Engine = (function(global) {
         if(Math.random() < 1 - Math.pow(0.997, gameTime)) {
             allEnemies.push(new Enemy());
         }
-        // checkCollisions();
+        if (checkCollisions()) {
+            reset();
+        }
     }
-
+    
+    function checkCollisions() {
+        for (var i = 0; i < allEnemies.length; i++) {
+            if (player.x > allEnemies[i].x - 101 && 
+                player.x < allEnemies[i].x + 101 && 
+                player.y > allEnemies[i].y - 171 && 
+                player.y < allEnemies[i].y + 171)
+                return true;
+        }
+        return false;
+    }
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
@@ -164,16 +176,10 @@ var Engine = (function(global) {
          * the render function you have defined.
          */
         allEnemies.forEach(function(enemy) {
-            /*
-            var interval = getRandom(0,2) * 1000;
-            console.log(interval);
-            win.setInterval(enemy.render(), interval);
-            */
             enemy.render();
         });
 
         player.render();
-        //enemy.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -181,7 +187,9 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        player.x = 101*2;
+        player.y = 83*5;
+        allEnemies = [];
     }
 
     /* Go ahead and load all of the images we know we're going to need to
